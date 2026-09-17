@@ -266,10 +266,15 @@
     <div class="wrap">
       <h2>Let's embark on your wellness journey together.</h2>
       <p>Connect with us to find the perfect time for your transformative experience.</p>
-      <!-- TODO: swap to the Calendly event-type link once one exists (must not contain /d/).
-           The old link was a single-use link and expired after its first booking. -->
-      <a class="btn btn-primary btn-lg" href="#contact">Book a Session</a>
-      <p class="booking-note">Pick a date and time that suit you &mdash; I&rsquo;ll confirm by email within a day.</p>
+      <!-- In-page scheduler. Switched on by setting CALENDLY_URL at the top of script.js.
+           Until then the request-a-session fallback below is shown instead, so this
+           section always offers a working way to book. -->
+      <div id="calendly-embed" class="calendly-embed" hidden></div>
+
+      <div id="booking-fallback">
+        <a class="btn btn-primary btn-lg" href="#contact">Book a Session</a>
+        <p class="booking-note">Pick a date and time that suit you &mdash; I&rsquo;ll confirm by email within a day.</p>
+      </div>
     </div>
   </section>
 

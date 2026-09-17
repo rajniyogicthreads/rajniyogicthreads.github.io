@@ -416,6 +416,17 @@ h1, h2, h3 {
   padding-top: .25em;
 }
 
+.calendly-embed {
+  min-width: 320px;
+  height: 700px;
+  margin: 28px auto 0;
+  max-width: 900px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+}
+@media (max-width: 640px) { .calendly-embed { height: 820px; } }
+
 .contact-form { background: var(--lavender-soft); padding: 34px; }
 .field { margin-bottom: 20px; }
 .field label {

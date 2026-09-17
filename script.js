@@ -3,6 +3,39 @@
 (function () {
   'use strict';
 
+  /* ---------- in-page booking ----------
+     Paste the Calendly *event type* link between the quotes to switch on real
+     self-serve scheduling in the Booking section. It must NOT contain "/d/" —
+     those are single-use links that die after one booking. Leave it empty and
+     the request-a-session fallback is shown instead. */
+  var CALENDLY_URL = '';
+
+  (function scheduler() {
+    var mount = document.getElementById('calendly-embed');
+    var fallback = document.getElementById('booking-fallback');
+    if (!mount || !CALENDLY_URL) return;
+
+    var css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = 'https://assets.calendly.com/assets/external/widget.css';
+    document.head.appendChild(css);
+
+    var widget = document.createElement('div');
+    widget.className = 'calendly-inline-widget';
+    widget.setAttribute('data-url', CALENDLY_URL + '?hide_gdpr_banner=1');
+    widget.style.minWidth = '320px';
+    widget.style.height = '100%';
+    mount.appendChild(widget);
+    mount.hidden = false;
+
+    var js = document.createElement('script');
+    js.src = 'https://assets.calendly.com/assets/external/widget.js';
+    js.async = true;
+    document.body.appendChild(js);
+
+    if (fallback) fallback.hidden = true;
+  })();
+
   /* ---------- current year in footer ---------- */
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
