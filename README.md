@@ -1,20 +1,45 @@
-# Yogic Threads — personal website
+# Yogic Threads — website
 
-A single-page static site (plain HTML, CSS and a little JavaScript — no build step, no
-framework, no dependencies). Because it's static, every major free host will serve it
-for $0 with HTTPS included.
+**Live at <https://rajniyogicthreads.github.io/>**
+Repo: <https://github.com/rajniyogicthreads/rajniyogicthreads.github.io>
+
+A single-page static site — plain HTML, CSS and a little JavaScript. No build step, no
+framework, no dependencies. What's in the repo is exactly what the browser gets.
 
 ```
-yogic-threads/
 ├── index.html      all the page content
 ├── styles.css      colours, type, layout
 ├── script.js       mobile menu, scroll fades, contact form
-└── images/         your photos (see images/README.md)
+├── .nojekyll       tells GitHub Pages to serve the files as-is
+└── images/         the photos (see images/README.md)
 ```
 
-## 1. Preview it locally
+## 1. Updating the site
 
-Just double-click `index.html`. Or, for a proper local server:
+The repo *is* the website: GitHub Pages serves the `main` branch directly, so pushing is
+deploying. There is no separate publish step.
+
+```powershell
+cd C:\Users\mundh\Downloads\yogic-threads\yogic-threads
+# edit index.html / styles.css / images…
+git add -A
+git commit -m "what changed"
+git push
+```
+
+Live within a minute or two. Hard-refresh (Ctrl+F5) if you still see the old version —
+browsers cache `styles.css` and `script.js` aggressively.
+
+`git` and `gh` are installed on this machine and `gh` is signed in as **rajniyogicthreads**.
+If a terminal says `git is not recognized`, it was opened before the install — open a fresh
+PowerShell window.
+
+Prefer not to use the command line? Edit any file straight on GitHub with the pencil icon,
+or use **Add file → Upload files** to swap a photo. Every commit redeploys.
+
+## 2. Preview locally before pushing
+
+Double-click `index.html`, or run a proper local server:
 
 ```powershell
 cd C:\Users\mundh\Downloads\yogic-threads\yogic-threads
@@ -22,29 +47,11 @@ python -m http.server 8000
 # then open http://localhost:8000
 ```
 
-## 2. Photos
+## 3. Classes and registration
 
-Already done — every image was copied across from the live soloist page into `images/`
-(see [images/README.md](images/README.md) for what's where). To change one, overwrite the
-file keeping the same name. If a file is ever missing, the page shows a lavender
-placeholder naming it rather than a broken image.
-
-## 3. Turn on the contact form (optional, free)
-
-Static hosts can't run server code, so the form uses a free form-relay service:
-
-1. Sign up at https://formspree.io (free tier: 50 submissions/month).
-2. Create a form and copy its endpoint, e.g. `https://formspree.io/f/abcdwxyz`.
-3. In `index.html`, replace `https://formspree.io/f/YOUR_FORM_ID` with it.
-
-Leave it as-is and the form still works — it opens the visitor's email app with the
-message pre-filled instead.
-
-## 3b. Classes and testimonials
-
-**Classes** live in the `<section class="classes" id="book">` block of `index.html`. Each
-batch is one `<article class="class-card">` holding a title, the days and times, a short
-description and a Register button pointing at its Google Form:
+Classes live in the `<section class="classes" id="book">` block of `index.html`. Each batch
+is one `<article class="class-card">` holding a title, the days and times, a description
+and a Register button pointing at its Google Form.
 
 | Batch | Days | Time | Register form |
 |---|---|---|---|
@@ -53,90 +60,78 @@ description and a Register button pointing at its Google Form:
 | Seniors — Light Movement & Pranayama | Mon–Fri | 11:00 am–12:00 pm | `forms.gle/GVaMT1BMcgfFQKuFA` |
 | Kids Yoga (age 5+), CAD 20/month | Sat / Sun | 9:15–10:00 am / 9:00–9:45 am | `forms.gle/rFywkZGFNWA9pvf27` |
 
-To change a time, edit that card's `<p class="class-when">` line. To change where Register
-goes, edit its `href`. To add a batch, copy a whole `<article>` block — the grid reflows on
-its own.
+- **Change a time** — edit that card's `<p class="class-when">` line.
+- **Change where Register goes** — edit that card's `href`.
+- **Add a batch** — copy a whole `<article class="class-card reveal">…</article>` block.
+  The grid reflows on its own and stacks to one column on phones.
 
-Note the morning, evening and seniors buttons all resolve to the **same** Google Form, so
-that form needs a "which class are you registering for?" question if you want to tell the
-sign-ups apart. Only the kids batch has its own form.
+⚠️ The morning, evening and seniors buttons all resolve to the **same** Google Form
+(`…fHCOgPsR1DTs…`). Unless that form asks *which class are you registering for?*, the
+sign-ups can't be told apart. Only the kids batch has its own form.
 
-There is no Calendly on the site. An earlier version embedded one, but the link used was a
-single-use `/d/` link, which expires after its first booking and showed visitors a
-"Something went wrong" page.
+There is deliberately **no Calendly** on the site. An earlier version embedded one, but the
+link was a single-use `/d/` link — those expire after their first booking, and visitors were
+getting a "Something went wrong" page. If a scheduler is wanted later, use a permanent
+*event type* link (no `/d/` in it), or Cal.com, whose free plan allows unlimited event types
+where Calendly's free plan allows one.
 
-**Testimonials** are built but deliberately switched off. The two reviews on the soloist
-page are the template's demo text (both signed "Example Customer Review"), so publishing
-them would put invented praise on a real business site. To turn the section on:
+## 4. The contact form
+
+Static hosting can't run server code, so the form needs a free relay to deliver mail:
+
+1. Sign up at <https://formspree.io> (free tier: 50 submissions/month).
+2. Create a form and copy its endpoint, e.g. `https://formspree.io/f/abcdwxyz`.
+3. In `index.html`, replace `https://formspree.io/f/YOUR_FORM_ID` with it.
+
+**Until that's done the form does not send anything.** It falls back to opening the
+*visitor's own* email app with the details pre-filled, which they then have to send
+themselves. That works on desktop but is unreliable on phones, where many people have no
+mail app set up — so some enquiries will be lost. Worth the two minutes.
+
+The form collects name, email, which service they want, a preferred date and time, and a
+message. `script.js` blocks past dates automatically, computed from the visitor's own clock,
+so it never needs editing.
+
+## 5. Testimonials (built, switched off)
+
+The section is styled and ready but commented out. The two reviews inherited from the
+original template are demo text, both signed "Example Customer Review" — publishing them
+would put invented praise on a real business site. To switch it on:
 
 1. In `index.html`, find the block starting `<!-- TESTIMONIALS`.
 2. Replace the placeholder quotes and names with real ones.
-3. Delete the `<!--` line above `<section class="reviews">` and the `-->` line after its
+3. Delete the `<!--` line above `<section class="reviews">` and the `-->` after its
    closing `</section>`.
 
-Styling is already in place, so it will look finished the moment you uncomment it.
+## 6. Photos
 
-## 4. Publish it (pick one)
+Every image sits in `images/` — see [images/README.md](images/README.md) for what's where.
+To change one, overwrite the file keeping the same name. If a file is ever missing, the page
+shows a lavender placeholder naming it rather than a broken image.
 
-### Option A — Netlify Drop (fastest, no account needed to try)
+The class posters are **not** on the site; they've only ever existed as chat attachments.
+To use them, save them into `images/` and add them to the class cards or the gallery.
 
-1. Go to https://app.netlify.com/drop
-2. Drag the whole `yogic-threads` folder onto the page.
-3. You get a live URL in seconds, e.g. `yogic-threads.netlify.app`.
-   Sign in (free) to keep it permanently and rename the subdomain.
+## 7. Editing the look
 
-### Option B — GitHub Pages (chosen — best for editing over time)
+- **Text** — all of it is in `index.html`, in plain sentences you can edit directly.
+- **Colours** — the top of `styles.css` defines `--violet`, `--lavender`, `--ink`. Change
+  those and the whole site follows.
+- **Fonts** — Playfair Display (headings) and Manrope (body), from Google Fonts in `<head>`.
+- **Adding a service** — copy one `<article class="card reveal">…</article>` block in the
+  Services section and edit it.
 
-No `git` needed: GitHub's website accepts drag-and-drop uploads. Do all of this signed in
-to **the site owner's** GitHub account (free at https://github.com/signup).
+## 8. Hosting notes
 
-1. **Create the repo** — https://github.com/new
-   - Repository name: **`<username>.github.io`**, using the account's exact username.
-     That exact name gives a clean address, `https://<username>.github.io/`. Any other
-     name works too, it just lands at `https://<username>.github.io/<repo-name>/`.
-   - Visibility: **Public** (free Pages requires it — see the note below).
-   - Leave "Add a README" unticked, then **Create repository**.
+Free forever, with HTTPS, on GitHub Pages. Two constraints worth remembering:
 
-2. **Upload the files** — on the empty repo, click **uploading an existing file**.
-   - Open `C:\Users\mundh\Downloads\yogic-threads\yogic-threads` in Explorer.
-   - Select everything *inside* it (Ctrl+A) and drag that selection onto the page.
-     Drag the **contents**, not the folder itself — `index.html` has to sit at the top
-     level of the repo or the site won't load.
-   - Check that `index.html`, `styles.css`, `script.js` and the `images` folder are all
-     listed, then **Commit changes**. (`.nojekyll` is an empty file and the web uploader
-     sometimes drops it — harmless here, nothing in the site relies on it.)
+- **The repo must stay public.** Free Pages requires it. Nothing secret is in the site, but
+  Rajni's email, Instagram and the registration links are readable by anyone. Her phone and
+  WhatsApp numbers were deliberately removed and are not in the repo.
+- **Don't rename the repo.** `rajniyogicthreads.github.io` is what produces the clean root
+  URL. Any other name would serve the site from a `/sub-path/` instead.
 
-3. **Turn on Pages** — repo → **Settings** → **Pages** → Source: **Deploy from a branch**
-   → branch `main`, folder `/ (root)` → **Save**.
-
-4. Wait 1–2 minutes, then open **`https://<username>.github.io/`**. The Actions tab shows
-   a green tick when the deploy finishes.
-
-Free GitHub Pages requires the repo to be **public**. Nothing secret is in the site, but
-the owner's email, Instagram and registration-form links sit in `index.html` —
-the same details already published on the soloist page.
-
-To update the site afterwards, open the file in the repo and click the pencil icon, or
-use **Add file → Upload files** to replace a photo. Every commit redeploys automatically.
-
-### Option C — Cloudflare Pages
-
-Connect the GitHub repo at https://dash.cloudflare.com → Workers & Pages → Create →
-Pages. Build command: *none*. Output directory: `/`. Free, fast CDN, unlimited bandwidth.
-
-## 5. Custom domain (optional)
-
-All three hosts support a custom domain free of charge — you only pay the registrar for
-the domain itself (~$10–15/yr, e.g. `yogicthreads.com`). Add it under the host's
-*Domains* settings and point the registrar's DNS at the values it shows you. HTTPS is
-issued automatically.
-
-## Editing the content
-
-- **Text** — all of it lives in `index.html`, in plain sentences you can edit directly.
-- **Colours** — the top of `styles.css` has `--violet`, `--lavender`, `--ink`. Change
-  those three and the whole site follows.
-- **Fonts** — Playfair Display (headings) and Manrope (body), loaded from Google Fonts
-  in the `<head>` of `index.html`.
-- **Adding a service** — copy one `<article class="card reveal">…</article>` block and
-  edit it; the grid reflows on its own.
+**Custom domain (optional)** — GitHub Pages supports one free; you only pay a registrar for
+the domain itself (~$10–15/yr, e.g. `yogicthreads.com`). Add it under **Settings → Pages →
+Custom domain** and point the registrar's DNS at the values shown. HTTPS is issued
+automatically.
