@@ -8,7 +8,7 @@
      self-serve scheduling in the Booking section. It must NOT contain "/d/" —
      those are single-use links that die after one booking. Leave it empty and
      the request-a-session fallback is shown instead. */
-  var CALENDLY_URL = '';
+  var CALENDLY_URL = 'https://calendly.com/rajni-yogicthreads/30min';
 
   (function scheduler() {
     var mount = document.getElementById('calendly-embed');
@@ -31,9 +31,12 @@
     var js = document.createElement('script');
     js.src = 'https://assets.calendly.com/assets/external/widget.js';
     js.async = true;
+    /* Only retire the fallback once the widget has actually loaded. If Calendly is
+       blocked or down, visitors keep the request-a-session route instead of an
+       empty box. */
+    js.onload = function () { if (fallback) fallback.hidden = true; };
+    js.onerror = function () { mount.hidden = true; };
     document.body.appendChild(js);
-
-    if (fallback) fallback.hidden = true;
   })();
 
   /* ---------- current year in footer ---------- */
