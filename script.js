@@ -86,6 +86,15 @@
   var note = form.querySelector('.form-note');
   var EMAIL = 'rajnimundhra@gmail.com';
 
+  /* Don't let anyone request a date that has already passed. Computed from the
+     visitor's local clock, so it stays correct without ever being edited. */
+  var dateField = form.querySelector('#date');
+  if (dateField) {
+    var now = new Date();
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    dateField.min = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+  }
+
   function setNote(html, cls) {
     if (!note) return;
     note.innerHTML = html;
@@ -93,11 +102,13 @@
   }
 
   function mailtoFallback(data) {
-    var subject = 'Website enquiry: ' + (data.interest || 'Yoga sessions');
+    var subject = 'Session request: ' + (data.interest || 'Yoga sessions');
     var body =
       'Name: ' + (data.name || '') + '\n' +
       'Email: ' + (data.email || '') + '\n' +
-      'Interested in: ' + (data.interest || '') + '\n\n' +
+      'Interested in: ' + (data.interest || '') + '\n' +
+      'Preferred date: ' + (data.date || 'no preference') + '\n' +
+      'Preferred time: ' + (data.time || 'no preference') + '\n\n' +
       (data.message || '');
     window.location.href =
       'mailto:' + EMAIL +
@@ -132,13 +143,13 @@
       .then(function (res) {
         if (!res.ok) throw new Error('Request failed');
         form.reset();
-        setNote('Thank you! Your message is on its way — I&rsquo;ll reply soon.', 'success');
+        setNote('Thank you! Your session request is on its way — I&rsquo;ll confirm by email within a day.', 'success');
       })
       .catch(function () {
         setNote('Sorry, that didn&rsquo;t send. Please email <a href="mailto:' + EMAIL + '">' + EMAIL + '</a>.', 'error');
       })
       .then(function () {
-        if (button) { button.disabled = false; button.textContent = 'Send Message'; }
+        if (button) { button.disabled = false; button.textContent = 'Request My Session'; }
       });
   });
 })();

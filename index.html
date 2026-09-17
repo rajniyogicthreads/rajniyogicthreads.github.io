@@ -266,10 +266,10 @@
     <div class="wrap">
       <h2>Let's embark on your wellness journey together.</h2>
       <p>Connect with us to find the perfect time for your transformative experience.</p>
-      <!-- TODO: point this back at the scheduler once a permanent booking link exists.
-           The old Calendly link was a single-use /d/ link and now shows an error page. -->
-      <a class="btn btn-primary btn-lg" href="#contact">Request a Time</a>
-      <p class="booking-note">Tell me what suits you and I&rsquo;ll confirm your slot personally.</p>
+      <!-- TODO: swap to the Calendly event-type link once one exists (must not contain /d/).
+           The old link was a single-use link and expired after its first booking. -->
+      <a class="btn btn-primary btn-lg" href="#contact">Book a Session</a>
+      <p class="booking-note">Pick a date and time that suit you &mdash; I&rsquo;ll confirm by email within a day.</p>
     </div>
   </section>
 
@@ -311,10 +311,24 @@
           </select>
         </div>
         <div class="field">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="4" required></textarea>
+          <label for="date">Preferred date</label>
+          <input id="date" name="date" type="date">
         </div>
-        <button class="btn btn-primary" type="submit">Send Message</button>
+        <div class="field">
+          <label for="time">Preferred time</label>
+          <select id="time" name="time">
+            <option>Flexible &mdash; suggest a time</option>
+            <option>Morning (6am &ndash; 12pm)</option>
+            <option>Afternoon (12pm &ndash; 5pm)</option>
+            <option>Evening (5pm &ndash; 9pm)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">Anything I should know?</label>
+          <textarea id="message" name="message" rows="4" required
+                    placeholder="New to yoga, an injury to work around, a goal you have in mind&hellip;"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Request My Session</button>
         <p class="form-note">Prefer email? Write to <a href="mailto:rajnimundhra@gmail.com">rajnimundhra@gmail.com</a>.</p>
       </form>
     </div>
