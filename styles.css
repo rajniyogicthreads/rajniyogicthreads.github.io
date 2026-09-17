@@ -370,24 +370,59 @@ h1, h2, h3 {
 
 /* ---------------------------- booking ---------------------------- */
 
-.booking {
-  background: var(--lavender-soft);
+.classes { background: var(--lavender-soft); padding: 88px 0 96px; }
+.classes .section-title { margin-bottom: 20px; }
+.classes-lead {
   text-align: center;
-  padding: 88px 0 96px;
-}
-.booking h2 {
-  font-size: clamp(1.9rem, 4vw, 3rem);
-  max-width: 22ch;
-  margin-inline: auto;
-}
-.booking > .wrap > p {
   font-size: 1.15rem;
   color: var(--ink-soft);
-  max-width: 46ch;
-  margin: 0 auto 34px;
+  max-width: 62ch;
+  margin: 0 auto 52px;
 }
+
+.class-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+.class-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 3px solid var(--violet);
+  padding: 32px 30px 34px;
+}
+.class-card h3 { font-size: 1.6rem; margin: 0 0 16px; }
+.class-card p { color: var(--ink-soft); margin: 0 0 1em; }
+
+.class-tag {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  background: var(--lavender);
+  color: var(--violet);
+  padding: 5px 12px;
+  margin-left: 8px;
+}
+
+/* day on the left, time on the right; one row per batch */
+.class-when {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px 16px;
+  margin: 0 0 18px;
+}
+.class-when strong { color: var(--violet); }
+
+.class-fee { font-weight: 600; color: var(--ink); }
+.class-card .btn { margin-top: auto; align-self: flex-start; }
+
+.classes-note { text-align: center; color: var(--ink-soft); margin: 48px 0 0; }
+
 .btn-lg { font-size: 1.25rem; padding: 18px 42px; }
-.booking-note { font-size: .95rem; color: var(--ink-soft); margin-top: 20px; }
 
 /* ---------------------------- contact ---------------------------- */
 
@@ -415,17 +450,6 @@ h1, h2, h3 {
   color: var(--violet-deep);
   padding-top: .25em;
 }
-
-.calendly-embed {
-  min-width: 320px;
-  height: 700px;
-  margin: 28px auto 0;
-  max-width: 900px;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #fff;
-}
-@media (max-width: 640px) { .calendly-embed { height: 820px; } }
 
 .contact-form { background: var(--lavender-soft); padding: 34px; }
 .field { margin-bottom: 20px; }
@@ -475,6 +499,7 @@ h1, h2, h3 {
 
 @media (max-width: 1000px) {
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .class-grid { grid-template-columns: 1fr; }
   .quote-grid { grid-template-columns: 1fr; }
   .hero-inner { grid-template-columns: 1fr; gap: 40px; padding-top: 56px; padding-bottom: 64px; }
   .hero-media { order: 2; }

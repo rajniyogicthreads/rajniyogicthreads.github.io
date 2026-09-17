@@ -40,11 +40,30 @@ Static hosts can't run server code, so the form uses a free form-relay service:
 Leave it as-is and the form still works — it opens the visitor's email app with the
 message pre-filled instead.
 
-## 3b. Booking and testimonials
+## 3b. Classes and testimonials
 
-**Booking** is live: the "Book a Session" / "Schedule Now" buttons and the contact list all
-point at your Calendly (`calendly.com/d/cnwb-wgc-x3x/yoga-session`). If that link ever
-changes, it appears in three places in `index.html` — search for `calendly.com`.
+**Classes** live in the `<section class="classes" id="book">` block of `index.html`. Each
+batch is one `<article class="class-card">` holding a title, the days and times, a short
+description and a Register button pointing at its Google Form:
+
+| Batch | Days | Time | Register form |
+|---|---|---|---|
+| Early Morning Yoga | Mon–Fri | 6:30–7:30 am | `forms.gle/614QzP8ov1SvWdWH8` |
+| Evening (working professionals) | Mon–Thu | 9:00–9:50 pm | `forms.gle/614QzP8ov1SvWdWH8` |
+| Seniors — Light Movement & Pranayama | Mon–Fri | 11:00 am–12:00 pm | `forms.gle/GVaMT1BMcgfFQKuFA` |
+| Kids Yoga (age 5+), CAD 20/month | Sat / Sun | 9:15–10:00 am / 9:00–9:45 am | `forms.gle/rFywkZGFNWA9pvf27` |
+
+To change a time, edit that card's `<p class="class-when">` line. To change where Register
+goes, edit its `href`. To add a batch, copy a whole `<article>` block — the grid reflows on
+its own.
+
+Note the morning, evening and seniors buttons all resolve to the **same** Google Form, so
+that form needs a "which class are you registering for?" question if you want to tell the
+sign-ups apart. Only the kids batch has its own form.
+
+There is no Calendly on the site. An earlier version embedded one, but the link used was a
+single-use `/d/` link, which expires after its first booking and showed visitors a
+"Something went wrong" page.
 
 **Testimonials** are built but deliberately switched off. The two reviews on the soloist
 page are the template's demo text (both signed "Example Customer Review"), so publishing
@@ -94,7 +113,7 @@ to **the site owner's** GitHub account (free at https://github.com/signup).
    a green tick when the deploy finishes.
 
 Free GitHub Pages requires the repo to be **public**. Nothing secret is in the site, but
-the owner's email, Instagram and Calendly link sit in `index.html` —
+the owner's email, Instagram and registration-form links sit in `index.html` —
 the same details already published on the soloist page.
 
 To update the site afterwards, open the file in the repo and click the pencil icon, or
